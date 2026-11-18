@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Sylver Soul — Chapter 1: Void</title>
+<style>
+/* The selected typeface lives in the user's own Fonts/ folder beside this HTML.
+   We reference it locally, but do not redistribute font files. */
+@font-face{font-family:"Dumbledor Narration";src:url("Fonts/dum1ital.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"Dumbledor Upright";src:url("Fonts/dum1.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+:root{--ivory:#f3eee9;--gold:#e5c199;--background:#000;--serif:'Palatino Linotype','Book Antiqua','Iowan Old Style','Baskerville',Georgia,serif;--narration:'Dumbledor Narration','Palatino Linotype',Georgia,serif;--display:'Baskerville','Palatino Linotype','Book Antiqua',Georgia,serif}
+*{box-sizing:border-box} html{background:#000;scrollbar-color:#675849 #000} body{margin:0;background:#000;color:var(--ivory);overflow-x:hidden;font-family:var(--serif)}
+::selection{background:#b3976d;color:#0b0705}
+.progress{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,#967556,#e5cba8);z-index:99;pointer-events:none}
+.site-nav{position:fixed;z-index:95;inset:0 0 auto;display:flex;justify-content:space-between;pointer-events:none;gap:16px;padding:clamp(15px,2.5vw,30px) clamp(16px,3.2vw,50px);opacity:var(--nav-opacity,0);text-shadow:0 1px 12px #000,0 0 4px #000}
+.site-nav span{font:500 clamp(9px,.79vw,11px)/1.5 Georgia,serif;letter-spacing:.34em;color:#e3ded8}.site-nav span:last-child{letter-spacing:.16em;color:#b9b3af;text-align:right}
+/* The original title card is retained. */
+.cover{z-index:5;isolation:isolate;height:100svh;min-height:560px;position:relative;display:grid;place-items:center;padding:65px 20px;background:#000}
+.cover-center{text-align:center;transform:translateY(-3vh);position:relative}
+.cover-series{font:500 clamp(10px,1.2vw,15px)/1 Georgia,serif;letter-spacing:.55em;margin:0 0 clamp(66px,12vh,120px);color:#d5cec7;white-space:nowrap}
+.cover-label{font:400 clamp(11px,1.1vw,15px)/1.4 var(--serif);letter-spacing:.35em;color:#ad9782;margin:0 0 12px}
+.cover h1{font-family:var(--display);font-size:clamp(102px,19vw,282px);line-height:.88;letter-spacing:.15em;padding-left:.15em;margin:0;font-weight:400;color:#f1ede7;text-shadow:0 0 28px rgba(224,181,139,.075)}
+.cover-rule{width:clamp(140px,24vw,355px);height:1px;background:linear-gradient(90deg,transparent,#9d7752 45%,#c29a6f 50%,#9d7752 55%,transparent);margin:clamp(32px,6vh,65px) auto 0;position:relative}
+.cover-rule:before{content:'';width:4px;height:4px;border-radius:50%;background:#efcfaa;position:absolute;top:-1.5px;left:calc(50% - 2px);box-shadow:0 0 11px #f0cc9a}
+.cover-continue{position:absolute;bottom:clamp(20px,4vh,50px);left:50%;transform:translateX(-50%);font:400 10px/1.5 Georgia,serif;letter-spacing:.26em;color:#a8a09a;display:flex;flex-direction:column;align-items:center;gap:12px;white-space:nowrap}
+.cover-continue:after{content:'';width:1px;height:38px;background:linear-gradient(#c1aa8e,transparent)}
+/* A quiet page-turn before anything is revealed. */
+.preface-space{position:relative;z-index:0;height:52svh;background:transparent}
+.impact{position:relative;z-index:3;height:100svh;min-height:0;background:transparent;overflow:visible}
+.impact-stage{height:100%;position:relative;overflow:visible;background:transparent;isolation:isolate}
+/* Preserve the complete 9:16 video, placed lower in the screen without retiming.
+   The original footage has its own black surroundings. Allow them to extend
+   beyond this (non-sticky) chapter section: no fade, mask, or hard frame edge
+   crosses the actual light or expanding ripples. */
+.impact-video{position:absolute;left:50%;top:calc(-63.5vw + 22svh);width:100vw;height:auto;aspect-ratio:9/16;transform:translateX(-50%);object-fit:contain;display:block;pointer-events:none;mix-blend-mode:screen;max-width:none;max-height:none;z-index:1;opacity:var(--drop-alpha,1);will-change:opacity}
+.impact-word{position:absolute;left:clamp(28px,9.5vw,170px);top:clamp(38px,6.7svh,88px);margin:0;font:italic 400 clamp(53px,6.9vw,101px)/1 var(--display);letter-spacing:-.055em;color:#fffaf0;text-shadow:-1.0px 0 rgba(121,202,249,.58),1.1px 0 rgba(255,142,100,.54),0 0 9px rgba(255,250,238,.78),0 0 24px rgba(255,239,200,.58),0 0 48px rgba(233,186,119,.30);opacity:var(--light-alpha,0);transform:translateY(0);pointer-events:none;will-change:opacity,transform;z-index:2}
+.impact-word:after{content:'';position:absolute;width:clamp(60px,8vw,130px);height:1px;left:4px;bottom:-20px;background:linear-gradient(90deg,rgba(250,211,149,.9),rgba(245,231,217,.08));box-shadow:0 0 9px rgba(250,211,149,.35)}
+/* V4-scale trailing light: native MP4, original aspect, gently dissolved frame edges. */
+.journey{position:relative;z-index:6;height:690svh;min-height:3650px;background:transparent;isolation:isolate}
+.journey-stage{position:sticky;top:0;height:100svh;overflow:hidden;z-index:1;pointer-events:none;background:transparent}
+.journey-stage video{position:absolute;left:var(--trail-x,0px);top:var(--trail-y,0px);width:var(--trail-width,1200px);height:auto;max-width:none;max-height:none;object-fit:fill;mix-blend-mode:screen;opacity:var(--trail-alpha,0);visibility:hidden;filter:contrast(1.22) brightness(1.02);mask-image:linear-gradient(to right,transparent 0%,#000 9%,#000 91%,transparent 100%),linear-gradient(to bottom,transparent 0%,#000 12%,#000 92%,transparent 100%);mask-composite:intersect;-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 9%,#000 91%,transparent 100%),linear-gradient(to bottom,transparent 0%,#000 12%,#000 92%,transparent 100%);-webkit-mask-composite:source-in;pointer-events:none;will-change:opacity,left,top}
+/* Typesetting as the reader's changing inner monologue. Each thought has its own real scroll distance. */
+.thought{position:absolute;z-index:4;left:0;width:100%;height:auto;display:flex;pointer-events:none;align-items:flex-start;padding:0 clamp(28px,9vw,180px);opacity:var(--beat-alpha,0);transform:translate3d(0,var(--beat-parallax,28px),0);will-change:transform,opacity}
+.thought.left{justify-content:flex-start}.thought.right{justify-content:flex-end}.thought.center{justify-content:center}
+/* The first thought used to hit its fade-out almost as the trail became visible.
+   Place it at a comparable reading interval to the following lines, without
+   accelerating, relocating, or retiming the footage itself. */
+.thought-one{top:98svh}.thought-bright{top:172svh}.thought-comfort-top{top:243svh}.thought-comfort-bottom{top:350svh}.thought-transition{top:415svh}.thought-loss{top:490svh}
+.thought-text{position:relative;margin:0;max-width:min(43vw,620px);font:normal 400 clamp(19px,2.25vw,34px)/1.48 var(--narration);letter-spacing:.004em;text-wrap:pretty;color:#f1ede6;text-shadow:-.72px 0 rgba(107,195,245,.28),.75px 0 rgba(248,141,110,.30),0 0 11px rgba(251,249,242,.58),0 0 22px rgba(244,223,200,.37),0 0 31px rgba(244,209,173,.24),0 2px 14px rgba(0,0,0,.92)}
+.thought.right .thought-text{text-align:right}.thought.center .thought-text{text-align:center}
+.thought-text:before{content:'';position:absolute;width:clamp(28px,3.5vw,58px);height:1px;top:-23px;left:0;background:linear-gradient(90deg,rgba(224,192,149,.93),transparent);box-shadow:0 0 8px rgba(224,192,149,.27)}
+.thought.right .thought-text:before{right:0;left:auto;background:linear-gradient(270deg,rgba(224,192,149,.93),transparent)}
+.thought.center .thought-text:before{left:calc(50% - 24px)}
+.thought-text .soft-gold{color:#e6cfad;text-shadow:-.85px 0 rgba(100,194,244,.25),.85px 0 rgba(245,144,100,.27),0 0 12px rgba(255,244,225,.66),0 0 24px rgba(244,189,118,.56),0 0 37px rgba(244,189,118,.38)}
+.thought-transition .thought-text:before,.thought-loss .thought-text:before{display:none}
+/* The rare orange-emphasis words emit a brighter bloom than ordinary text. */
+.thought-text .gold{color:#f7b970;text-shadow:-1.0px 0 rgba(107,195,245,.34),1.0px 0 rgba(255,157,95,.52),0 0 15px rgba(255,245,218,.82),0 0 29px rgba(255,187,104,.80),0 0 54px rgba(255,170,84,.50)}
+/* The first memory narration floats INSIDE the foliage, on its darker right side. */
+.thought-bright .thought-text{font-size:clamp(22px,2.75vw,41px);max-width:min(52vw,740px)}
+/* Home is set in the DARK right-hand portion of the footage, not over sun glare.
+   The text itself is left-aligned, but its column is anchored near the right edge. */
+.thought-comfort-top{top:243svh;justify-content:flex-end;padding-right:clamp(12px,2vw,34px)}
+.thought-comfort-top .thought-text{text-align:left;max-width:min(38vw,520px)}
+/* A non-rendering reference keeps the scroll geometry without duplicating the moving caption. */
+.thought-loss .thought-text{visibility:hidden}
+.thought-comfort-top .thought-text,.thought-comfort-bottom .thought-text{max-width:520px}.thought-loss .thought-text{font-size:clamp(45px,4.8vw,70px);white-space:nowrap}
+.thought-transition .thought-text{font-size:clamp(36px,4.2vw,62px);color:#f6ede3}
+/* The foliage has cinematic depth but soft boundaries, not a white framed card. It passes IN FRONT of the wisp. */
+.leaf-memory{position:absolute;z-index:3;top:235svh;left:0;width:min(84vw,1350px);height:clamp(300px,62svh,690px);overflow:hidden;pointer-events:none;opacity:var(--leaf-alpha,0);transform:translateY(var(--leaf-parallax,0px));will-change:transform,opacity;mask-image:linear-gradient(to bottom,transparent,#000 9%,#000 88%,transparent),linear-gradient(to right,#000 0%,#000 80%,transparent 100%);mask-composite:intersect;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 9%,#000 88%,transparent),linear-gradient(to right,#000 0%,#000 80%,transparent 100%);-webkit-mask-composite:source-in}
+.leaf-memory video{width:112%;height:122%;position:absolute;left:-4%;top:-11%;object-fit:cover;object-position:center center;transform:translateY(var(--leaf-inner,0px));pointer-events:none}
+/* Final reaching-hand beat remains full-screen and free of borders. */
+/* Bring the reaching hand nearer to the last glimmer; other wisp beats stay unchanged. */
+.hand-sequence{position:relative;z-index:7;margin-top:-216svh;height:260svh;background:transparent;pointer-events:none}
+.hand-fixed{position:sticky;top:0;width:100%;height:100svh;overflow:hidden;background:transparent}
+.hand-fixed video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:var(--hand-alpha,0);visibility:hidden;pointer-events:none;mix-blend-mode:screen;filter:contrast(1.26) brightness(1.01);mask-image:linear-gradient(to bottom,transparent 0%,#000 7%,#000 77%,transparent 100%),linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);mask-composite:intersect;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 7%,#000 77%,transparent 100%),linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);-webkit-mask-composite:source-in}
+.hand-narration{position:absolute;z-index:3;right:clamp(30px,8vw,170px);left:auto;top:auto;bottom:18%;text-align:right;opacity:var(--hand-text-alpha,0);transform:translateY(var(--hand-text-y,0px));pointer-events:none}
+.hand-narration p{margin:0;font:normal 400 clamp(22px,2.4vw,35px)/1.43 var(--narration);letter-spacing:.005em;color:#f0e9e5;text-shadow:-.75px 0 rgba(105,205,251,.26),.8px 0 rgba(240,121,95,.25),0 0 11px rgba(246,235,219,.52),0 0 24px rgba(231,205,181,.32),0 2px 20px #000}
+/* The first "It was gone" is now carried from the centered wisp caption;
+   the duplicate stays in the DOM as a fallback for browsers without scripting. */
+.hand-narration-first{left:clamp(28px,9vw,180px);right:auto;top:18%;bottom:auto;text-align:left}
+.hand-narration:not(.hand-narration-first) p{font-size:clamp(28px,3.2vw,48px)}
+/* ONE scroll-driven text element: centered ivory whisper -> upper-left gold echo. */
+.loss-carry{position:fixed;z-index:89;left:50vw;top:50svh;pointer-events:none;white-space:nowrap;opacity:0;transform:translate(-50%,-50%);font:normal 400 clamp(45px,4.8vw,70px)/1.42 var(--narration);letter-spacing:.004em;color:#f1ede6;text-shadow:-.95px 0 rgba(107,195,245,.49),1px 0 rgba(248,141,110,.47),0 0 10px rgba(251,249,242,.50),0 0 19px rgba(244,223,200,.31),0 0 26px rgba(244,209,173,.18),0 2px 14px #000;will-change:top,left,opacity}
+.hand-narration-first:before{left:0;right:auto;background:linear-gradient(90deg,#d0ad81,transparent)}
+.hand-narration:before{content:'';position:absolute;right:0;left:auto;top:-23px;width:54px;height:1px;background:linear-gradient(270deg,#d0ad81,transparent)}
+/* Overlap only the empty tail of the hand's long sticky section; this
+   closes the unintentional blank interval without speeding up the hand. */
+.nothing{position:relative;z-index:8;margin-top:-98svh;height:118svh;min-height:610px;display:flex;align-items:center;justify-content:center;padding:10vw;background:transparent;pointer-events:none}
+.nothing p{position:fixed;z-index:8;left:calc(50% - clamp(0px,.55vw,9px));top:46svh;width:max-content;max-width:95vw;margin:0;font:normal 400 clamp(55px,8.5vw,121px)/1.16 var(--narration);letter-spacing:-.035em;color:#fff;text-align:center;opacity:var(--nothing-alpha,0);transform:translate(-50%,-50%);text-shadow:-.7px 0 rgba(140,203,255,.24),.8px 0 rgba(255,166,131,.22),0 0 8px rgba(255,255,255,.55),0 0 19px rgba(255,255,255,.27),0 0 34px rgba(255,245,227,.13)}
+.nothing p span{color:inherit;text-shadow:inherit;font:inherit;opacity:1}.footer{height:28svh;display:grid;place-items:center;font:10px/1.5 Georgia,serif;letter-spacing:.26em;color:#726d67}
+
+.play-toggle,.settings-toggle{position:fixed;z-index:101;bottom:clamp(14px,2.2vw,26px);border:1px solid rgba(218,190,157,.42);border-radius:999px;background:rgba(9,7,6,.78);backdrop-filter:blur(10px);color:#eaddcc;cursor:pointer;font:500 11px/1 Georgia,serif;letter-spacing:.18em;padding:12px 17px;box-shadow:0 0 14px rgba(0,0,0,.55)}
+.play-toggle{right:clamp(88px,7vw,112px)}.settings-toggle{right:clamp(13px,2vw,26px);width:42px;padding:11px 0;font-size:17px;line-height:11px;text-align:center}
+.play-toggle:hover,.settings-toggle:hover{border-color:#ecd2ab;background:#15110c}
+.play-toggle:focus-visible,.settings-toggle:focus-visible,.speed-range:focus-visible{outline:2px solid #e8be82;outline-offset:3px}
+.settings-panel{position:fixed;z-index:101;right:clamp(13px,2vw,26px);bottom:75px;width:min(310px,calc(100vw - 26px));border:1px solid rgba(220,182,135,.34);background:rgba(9,8,7,.96);color:#ebe2d6;padding:19px 20px;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.85);font:13px/1.5 Georgia,serif}
+.settings-panel[hidden]{display:none}.settings-title{margin:0 0 16px;font:13px Georgia,serif;letter-spacing:.12em;color:#e8cda7}.settings-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.settings-speed{color:#f6e5d0;font-variant-numeric:tabular-nums}.speed-range{width:100%;accent-color:#cba178;cursor:pointer;margin:16px 0 8px}.speed-guides{display:flex;justify-content:space-between;font:11px Georgia,serif;color:#9f968c}.settings-note{font:11px/1.55 Georgia,serif;color:#bdb2a8;margin:18px 0 0}.asset-status{font:10px/1.7 ui-monospace,Consolas,monospace;color:#a69b8c;margin:14px 0 0;border-top:1px solid #40362e;padding-top:10px}.asset-status b{font-weight:400;color:#d9d0c4}.asset-status .problem{color:#ffb18f}
+.media-error{display:none;position:absolute;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);font:13px/1.6 Georgia,serif;text-align:center;color:#e4b293;background:rgba(0,0,0,.88);padding:16px 22px;border:1px solid #68483e;max-width:80vw}
+.media-error.visible{display:block}
+
+@media(max-width:720px){
+.site-nav{padding:16px}.site-nav span{font-size:9px;letter-spacing:.2em}.site-nav span:last-child{letter-spacing:.08em}
+.cover-series{font-size:11px;letter-spacing:.37em}.cover h1{font-size:clamp(84px,24vw,160px);letter-spacing:.10em;padding-left:.1em}
+.preface-space{height:50svh}.impact{height:100svh;min-height:0}
+.impact-word{left:8vw;top:5.5svh;font-size:clamp(48px,15vw,80px)}
+.impact-video{width:82svh;top:calc(-51.5svh + 17svh)}
+.journey{height:700svh;min-height:3800px}
+.thought{padding:0 8vw}.thought-text{max-width:80vw;font-size:clamp(19px,4.6vw,27px);line-height:1.5}
+.thought-one{top:109svh}.thought-bright{top:183svh}.thought-comfort-top{top:253svh}.thought-comfort-bottom{top:365svh}.thought-transition{top:431svh}.thought-loss{top:508svh}
+.thought-bright .thought-text{max-width:85vw;font-size:clamp(21px,5.3vw,29px)}
+.thought-comfort-top{top:253svh;padding-right:3vw;padding-left:5vw}.thought-comfort-top .thought-text{max-width:58vw;font-size:clamp(22px,5.8vw,28px);line-height:1.35;text-shadow:-.72px 0 rgba(107,195,245,.28),.75px 0 rgba(248,141,110,.30),0 0 13px rgba(251,249,242,.64),0 2px 6px #000,0 4px 22px #000}.thought-comfort-bottom .thought-text{max-width:84vw}.thought-loss .thought-text{font-size:clamp(40px,10.8vw,62px)}.thought-transition .thought-text{font-size:clamp(33px,9vw,54px)}
+.leaf-memory{top:248svh;width:100vw;height:54svh;min-height:285px;mask-image:linear-gradient(to bottom,transparent,#000 15%,#000 83%,transparent);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 15%,#000 83%,transparent)}
+.hand-sequence{height:236svh;margin-top:-212svh}.hand-narration{left:auto;right:8vw;top:auto;bottom:19%}.hand-narration-first{left:8vw;right:auto;top:18%;bottom:auto;text-align:left}.hand-narration p{font-size:clamp(17px,4.6vw,26px)}.hand-narration:not(.hand-narration-first) p{font-size:clamp(23px,6.2vw,35px)}.loss-carry{font-size:clamp(30px,8vw,46px)}
+
+.nothing{height:112svh;margin-top:-98svh}.nothing p{font-size:clamp(51px,13vw,77px)}
+}
+@media(prefers-reduced-motion:reduce){.thought,.leaf-memory{will-change:auto}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="site-nav" id="navigation" aria-label="Chapter navigation"><span>SYLVER SOUL</span><span>CHAPTER I · VOID</span></div>
+<button id="play-toggle" class="play-toggle" aria-label="Play automatic scrolling" aria-pressed="false">▶ Play</button>
+<button id="settings-toggle" class="settings-toggle" aria-label="Open playback settings" aria-expanded="false" title="Playback settings">⚙</button>
+<aside id="settings-panel" class="settings-panel" hidden aria-label="Playback settings">
+ <p class="settings-title">READING SPEED</p>
+ <div class="settings-head"><label for="speed-range">Continuous auto-scroll</label><output class="settings-speed" id="speed-value" for="speed-range">0.30× screen/s</output></div>
+ <input class="speed-range" id="speed-range" type="range" min="0.12" max="0.80" step="0.02" value="0.30">
+ <div class="speed-guides"><span>Leisurely</span><span>Quick</span></div>
+ <p class="settings-note">Play moves continuously through the chapter. Use the slider to choose your reading pace. Manual scrolling remains available.</p>
+ <div class="asset-status" id="asset-status">Checking local video files…</div>
+</aside>
+<div id="loss-carry" class="loss-carry" role="text">It was gone</div>
+<main>
+<section class="cover" id="cover" aria-label="Sylver Soul, Chapter One: Void">
+ <div class="cover-center"><p class="cover-series">SYLVER SOUL</p><p class="cover-label">CHAPTER ONE</p><h1>VOID</h1><div class="cover-rule" aria-hidden="true"></div></div>
+ <div class="cover-continue" aria-hidden="true">SCROLL TO BEGIN</div>
+</section>
+<div class="preface-space" aria-hidden="true"></div>
+<section class="impact" id="impact" aria-label="A lone glowing droplet strikes the black reflective void">
+ <div class="impact-stage"><video class="impact-video" id="drop" src="assets/drop.mp4" muted playsinline preload="auto" aria-hidden="true"></video><p class="impact-word" id="light-word">Light</p><div class="media-error" data-video-error="drop">Missing <code>assets/drop.mp4</code></div></div>
+</section>
+<section class="journey" id="journey" aria-label="A wisp of light travels through memories, then disappears">
+ <div class="journey-stage"><video id="trail" src="assets/trail.mp4" muted playsinline preload="auto" aria-label="A golden-white wisp travels through the void"></video><div class="media-error" data-video-error="trail">Missing <code>assets/trail.mp4</code></div></div>
+ <div class="thought right thought-one"><p class="thought-text">That was the first thing<br>I ever experienced</p></div>
+ <div class="thought left thought-bright"><p class="thought-text">It was a <span class="gold">bright</span>, blinding <span class="gold">light</span></p></div>
+ <div class="leaf-memory" id="leaf-memory"><video id="leaf" src="assets/leaves.mp4" muted autoplay loop playsinline preload="auto" aria-hidden="true"></video></div>
+ <div class="thought right thought-comfort-top"><p class="thought-text">One that filled me with a sense of <span class="gold">home</span></p></div>
+ <div class="thought left thought-comfort-bottom"><p class="thought-text">So safe and so <span class="soft-gold">warm</span></p></div>
+ <div class="thought right thought-transition"><p class="thought-text">Until…</p></div>
+ <div class="thought center thought-loss" aria-hidden="true"><p class="thought-text">&nbsp;</p></div>
+</section>
+<section class="hand-sequence" id="hand-section" aria-label="A ghostly, fractured hand reaches out as the last light disappears">
+ <div class="hand-fixed"><video id="hand" src="assets/reach.mp4" muted playsinline preload="auto" aria-label="A traced hand reaching out into darkness"></video><div class="hand-narration" id="hand-narration-second"><p>And I had nothing</p></div><div class="media-error" data-video-error="hand">Missing <code>assets/reach.mp4</code></div></div>
+</section>
+<section class="nothing" id="nothing"><p><span>I was</span> <span>nothing</span></p></section>
+<footer class="footer">END OF OPENING STUDY</footer>
+</main>
+<script>
+(()=>{
+'use strict';
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const smooth=t=>t*t*(3-2*t);
+const vh=()=>window.innerHeight||800;
+const impact=document.getElementById('impact');
+const drop=document.getElementById('drop');
+const light=document.getElementById('light-word');
+const journey=document.getElementById('journey');
+const trail=document.getElementById('trail');
+const leaf=document.getElementById('leaf');
+const leafPanel=document.getElementById('leaf-memory');
+const thoughts=[...document.querySelectorAll('.thought')];
+const lossThought=document.querySelector('.thought-loss');
+const lossCarry=document.getElementById('loss-carry');
+const lossCarryGold=[233,185,117], lossCarryIvory=[241,237,230];
+const handSection=document.getElementById('hand-section');
+const hand=document.getElementById('hand');
+const handNarrSecond=document.getElementById('hand-narration-second');
+const nothing=document.getElementById('nothing');
+const progress=document.getElementById('progress');
+const navigation=document.getElementById('navigation');
+const playButton=document.getElementById('play-toggle');
+const settingsButton=document.getElementById('settings-toggle');
+const settingsPanel=document.getElementById('settings-panel');
+const speedRange=document.getElementById('speed-range');
+const speedValue=document.getElementById('speed-value');
+const status=document.getElementById('asset-status');
+const reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+let request=0;
+
+const trailTrack=[[0.52,0.1],[0.52,0.1],[0.52,0.1],[0.51,0.125],[0.501,0.267],[0.512,0.395],[0.534,0.472],[0.559,0.521],[0.582,0.555],[0.616,0.587],[0.674,0.626],[0.712,0.681],[0.666,0.73],[0.575,0.76],[0.474,0.787],[0.379,0.808],[0.304,0.808],[0.245,0.801],[0.203,0.791],[0.185,0.782],[0.203,0.771],[0.305,0.759],[0.5,0.749],[0.665,0.743],[0.748,0.738],[0.758,0.728],[0.718,0.712],[0.62,0.694],[0.506,0.69],[0.455,0.702],[0.44,0.721],[0.443,0.738],[0.44,0.747],[0.43,0.753],[0.428,0.754],[0.428,0.754],[0.428,0.754],[0.428,0.754],[0.428,0.754],[0.428,0.754],[0.428,0.754]];
+let trailLastSize='';
+let autoPlaying=false,autoRaf=0,autoLast=0,autoElapsed=0;
+let speedScreensPerSecond=Number(speedRange.value);
+const state={drop:'loading',trail:'loading',leaves:'loading',reach:'loading'};
+function updateAssetStatus(){
+  status.innerHTML=Object.entries(state).map(([name,s])=>`<div><b>${name}.mp4</b> — <span class="${s==='missing'?'problem':''}">${s}</span></div>`).join('');
+}
+const media=[['drop',drop],['trail',trail],['leaves',leaf],['reach',hand]];
+for(const [name,v] of media){
+  v.addEventListener('loadedmetadata',()=>{state[name]=`${Math.round(v.videoWidth)}×${Math.round(v.videoHeight)} loaded`;updateAssetStatus();schedule();});
+  v.addEventListener('error',()=>{state[name]='missing / unsupported';updateAssetStatus();
+    const id=name==='reach'?'hand':name;
+    const error=document.querySelector(`[data-video-error="${id}"]`);if(error)error.classList.add('visible');
+  });
+}
+updateAssetStatus();
+function sectionProgress(el){const r=el.getBoundingClientRect();return clamp(-r.top/Math.max(1,r.height-vh()));}
+function visibility(el){
+  const b=el.getBoundingClientRect(),middle=b.top+b.height*.5,h=vh();
+  return smooth(clamp((h*.95-middle)/(h*.32)))*smooth(clamp((middle-h*.09)/(h*.32)));
+}
+// Chromium occasionally retains a blank frame after a paused seek.
+// Prime ONE decoded frame only when manually scrolling (never during autoplay),
+// then return to paused, scroll-controlled playback.
+function presentManualFrame(video){
+  // Prime a single frame ONLY once per media element. Repeatedly playing after
+  // every seek risks advancing past the clip's end and wrapping to frame zero.
+  if(autoPlaying||video._manualPrime||video._primed||!video.duration)return;
+  if(video.currentTime>=video.duration-.28){video._primed=true;return;}
+  video._manualPrime=true;
+  let done=false;
+  const settle=()=>{
+    if(done)return;done=true;
+    if(!autoPlaying)video.pause();
+    video._manualPrime=false;
+    video._primed=true;
+    schedule();
+  };
+  video.play().then(()=>{
+    if(typeof video.requestVideoFrameCallback==='function')video.requestVideoFrameCallback(settle);
+    setTimeout(settle,160);
+  }).catch(settle);
+}
+// V11 playback correction, applied WITHOUT changing V10's scroll geometry.
+// Non-looping videos never play independently. Manual scroll and autoplay
+// share one clock: the page scroll position. Pending seeks are coalesced.
+function trailHeadAt(p){
+  const index=clamp(p)*(trailTrack.length-1),i=Math.min(trailTrack.length-2,Math.floor(index)),t=index-i;
+  const a=trailTrack[i],b=trailTrack[i+1];
+  return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+}
+function frameTrail(p){
+  const h=vh(),w=window.innerWidth;
+  // ORIGINAL V10 tracking, proportions and on-screen position preserved.
+  const displayW=Math.max(w*.48,h*.98*9/16);
+  const displayH=displayW*16/9;
+  const [hx,hy]=trailHeadAt(p);
+  const targetX=w*(.51+(w<720?0:.025)*Math.sin(p*6.1));
+  const entry=smooth(clamp((sectionProgress(journey)+.025)/.085));
+  const targetY=h*(-.055+entry*(w<720?.61:.60));
+  trail.style.setProperty('--trail-width',Math.round(displayW)+'px');
+  trail.style.setProperty('--trail-x',Math.round(targetX-hx*displayW)+'px');
+  trail.style.setProperty('--trail-y',Math.round(targetY-hy*displayH)+'px');
+}
+function syncScrollVideo(video,section,p,active,rateFactor=1){
+  if(!video.duration || !Number.isFinite(video.duration))return;
+  if(!video.paused)video.pause();
+  if(!active)return;
+  const target=clamp(p)*Math.max(.01,video.duration-.06);
+  if(video._manualPrime){video._pendingTime=target;return;}
+  if(video.seeking){video._pendingTime=target;return;}
+  // Keep the hand's original, intentionally stepped scroll timing. Only
+  // drop and trail use the more forgiving decoder threshold.
+  const tolerance=video===hand?(autoPlaying?.065:.035):(autoPlaying?.075:.047);
+  if(Math.abs(video.currentTime-target)>tolerance){
+    video._pendingTime=null;
+    try{video.currentTime=target;}catch(e){}
+  }
+}
+for(const video of [drop,trail,hand]){
+  video.addEventListener('seeked',()=>{
+    const pending=video._pendingTime;video._pendingTime=null;
+    const tolerance=video===hand?(autoPlaying?.065:.035):(autoPlaying?.075:.047);
+    if(typeof pending==='number'&&Math.abs(video.currentTime-pending)>tolerance){
+      try{video.currentTime=pending;}catch(e){}
+      return;
+    }
+    if(!autoPlaying)presentManualFrame(video);
+    schedule();
+  });
+}
+function setPlaying(playing){
+  if(playing===autoPlaying)return;
+  autoPlaying=playing;
+  playButton.textContent=playing?'Ⅱ Pause':'▶ Play';
+  playButton.setAttribute('aria-pressed',String(playing));
+  playButton.setAttribute('aria-label',playing?'Pause automatic scrolling':'Play automatic scrolling');
+  if(playing){
+    stopWheelEase();
+    if(window.scrollY>=document.documentElement.scrollHeight-vh()-12)window.scrollTo({top:0,behavior:'instant'});
+    autoLast=0;autoElapsed=0;
+    autoRaf=requestAnimationFrame(stepAuto);
+  }else{
+    if(autoRaf)cancelAnimationFrame(autoRaf);
+    autoRaf=0;autoLast=0;
+    for(const v of [drop,trail,hand]){if(!v.paused)v.pause();}
+  }
+  schedule();
+}
+function stepAuto(ts){
+  if(!autoPlaying)return;
+  if(!autoLast)autoLast=ts;
+  const delta=Math.min(0.1,(ts-autoLast)/1000);autoLast=ts;
+  autoElapsed+=delta;
+  // Bezier-equivalent smoothstep: gently accelerate to the selected reading speed.
+  const acceleration=.055+.945*smooth(clamp(autoElapsed/1.45));
+  const end=Math.max(0,document.documentElement.scrollHeight-vh());
+  const next=Math.min(end,window.scrollY+speedScreensPerSecond*vh()*delta*acceleration);
+  window.scrollTo(0,next);
+  schedule();
+  if(next>=end-1){setPlaying(false);return;}
+  autoRaf=requestAnimationFrame(stepAuto);
+}
+playButton.addEventListener('click',()=>setPlaying(!autoPlaying));
+window.addEventListener('wheel',()=>{if(autoPlaying)setPlaying(false)},{passive:true});
+window.addEventListener('touchstart',()=>{if(autoPlaying)setPlaying(false);stopWheelEase()},{passive:true});
+// Smooth discrete mouse-wheel notches ONLY through the drop/trail passage.
+// The reaching hand is deliberately animated on stepped frames: never apply
+// wheel-easing there or to the remainder of the chapter.
+function inDropTrailPassage(fromY,toY){
+  const h=vh(),y=window.scrollY;
+  const dropStart=impact.getBoundingClientRect().top+y-h*1.0;
+  // The reaching-hand section overlaps the final part of the trail; stop
+  // easing before the hand actually enters the viewport.
+  const handEntry=handSection.getBoundingClientRect().top+y-h;
+  return fromY>=dropStart && fromY<handEntry && toY>=dropStart && toY<handEntry;
+}
+let wheelTarget=null,wheelRaf=0,wheelLast=0;
+function stopWheelEase(){
+  if(wheelRaf)cancelAnimationFrame(wheelRaf);
+  wheelTarget=null;wheelRaf=0;wheelLast=0;
+}
+function moveWheel(ts){
+  if(wheelTarget===null){wheelRaf=0;return;}
+  const dt=wheelLast?Math.min(64,ts-wheelLast):16;
+  wheelLast=ts;
+  if(!inDropTrailPassage(window.scrollY,wheelTarget)){
+    stopWheelEase();return;
+  }
+  const diff=wheelTarget-window.scrollY;
+  if(Math.abs(diff)<.6){window.scrollTo(0,wheelTarget);stopWheelEase();return;}
+  window.scrollTo(0,window.scrollY+diff*(1-Math.exp(-dt/115)));
+  wheelRaf=requestAnimationFrame(moveWheel);
+}
+window.addEventListener('wheel',event=>{
+  if(reduced||event.ctrlKey||event.metaKey||event.shiftKey||event.defaultPrevented)return;
+  if(event.target instanceof Element && event.target.closest('.settings-panel,.play-toggle,.settings-toggle,input,select,textarea,[contenteditable="true"]'))return;
+  const dy=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?vh():1);
+  // Small fractional deltas generally come from precision touchpads.
+  if(Math.abs(dy)<45||Math.abs(event.deltaX)>Math.abs(event.deltaY)){
+    if(wheelRaf)stopWheelEase();
+    return;
+  }
+  if(autoPlaying)setPlaying(false);
+  const end=Math.max(0,document.documentElement.scrollHeight-vh());
+  const next=clamp((wheelTarget===null?window.scrollY:wheelTarget)+dy,0,end);
+  if(!inDropTrailPassage(window.scrollY,next)){
+    stopWheelEase();
+    return; // allow the native wheel movement, including over the hand
+  }
+  event.preventDefault();
+  wheelTarget=next;
+  if(!wheelRaf)wheelRaf=requestAnimationFrame(moveWheel);
+},{passive:false});
+window.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||(e.target instanceof Element && e.target.closest('input,button')))return;stopWheelEase()},{passive:true});
+window.addEventListener('keydown',(event)=>{
+  if(event.target===speedRange)return;
+  if(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(event.key))stopWheelEase();
+  if(!autoPlaying)return;
+  if(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(event.key))setPlaying(false);
+},{passive:true});
+settingsButton.addEventListener('click',()=>{
+  settingsPanel.hidden=!settingsPanel.hidden;
+  settingsButton.setAttribute('aria-expanded',String(!settingsPanel.hidden));
+});
+function changeSpeed(value){
+  speedScreensPerSecond=clamp(Number(value)||.3,.12,.8);
+  speedValue.textContent=speedScreensPerSecond.toFixed(2)+' screen/s';
+  schedule();
+}
+speedRange.addEventListener('input',()=>changeSpeed(speedRange.value));
+changeSpeed(speedRange.value);
+function render(){
+  request=0;
+  const h=vh(),y=window.scrollY,max=Math.max(1,document.documentElement.scrollHeight-h);
+  progress.style.width=(100*y/max).toFixed(3)+'%';
+  navigation.style.setProperty('--nav-opacity',y>h*.72?'.87':'0');
+  const ri=impact.getBoundingClientRect();
+  const impactVisible=ri.top<h && ri.bottom>0;
+  const rj=journey.getBoundingClientRect(),j=sectionProgress(journey);
+  const journeyVisible=rj.bottom>0&&rj.top<h;
+  // The drop's image extends well BELOW its parent section. Its playback must
+  // not stop when the impact section exits the viewport: that was the freeze.
+  // Keep the original gentle 3.375s timing and dissolve the last portion of
+  // the footage into the beginning of the travelling wisp instead.
+  const dropProgress=clamp((h*.44-ri.top)/(h*2.05));
+  const dropAlpha=1-smooth(clamp((j-.006)/.085));
+  drop.style.setProperty('--drop-alpha',dropAlpha.toFixed(3));
+  const dr=drop.getBoundingClientRect();
+  const dropOnscreen=dr.bottom>0&&dr.top<h;
+  syncScrollVideo(drop,impact,dropProgress,dropOnscreen && dropAlpha>.008);
+  // "Light" fades in shortly before the descending droplet is visible.
+  const lightReveal=smooth(clamp((dropProgress-.01)/.18));
+  // Independently fade out as the word itself leaves the top of the viewport.
+  const lightBounds=light.getBoundingClientRect();
+  const lightExit=smooth(clamp((lightBounds.bottom-h*.025)/(h*.21)));
+  light.style.setProperty('--light-alpha',(lightReveal*lightExit).toFixed(3));
+  // The wisp begins sooner; it weakens under 'But then' and fades before the echo.
+  const trailEntrance=smooth(clamp((j-.008)/.055));
+  const trailOn=trailEntrance*(1-smooth(clamp((j-.56)/.28)));
+  trail.style.setProperty('--trail-alpha',trailOn.toFixed(3));
+  trail.style.visibility=trailOn>.025?'visible':'hidden';
+  const trailProgress=clamp((j+.065)/.92);
+  frameTrail(trailProgress);
+  syncScrollVideo(trail,journey,trailProgress,journeyVisible,1/.92);
+  for(let i=0;i<thoughts.length;i++){
+    const t=thoughts[i];
+    const b=t.getBoundingClientRect(),mid=b.top+b.height*.5;
+    const delta=clamp((mid-h*.5)/(h*.7),-1,1);
+    let alpha=visibility(t);
+    // First narration and first visible wisp share one entrance cue.
+    // Neither can lead the other, even as their screen positions differ.
+    if(i===0)alpha*=trailEntrance;
+    // A new thought should not appear while the previous one is still being read.
+    // This gate operates on opacity only; existing scroll geometry is retained.
+    if(i<thoughts.length-1){
+      const next=thoughts[i+1].getBoundingClientRect();
+      const nextMid=next.top+next.height*.5;
+      alpha*=1-smooth(clamp((h*1.06-nextMid)/(h*.105)));
+    }
+    t.style.setProperty('--beat-alpha',alpha.toFixed(3));
+    t.style.setProperty('--beat-parallax',(-delta*(reduced?0:110)).toFixed(1)+'px');
+  }
+  const lb=leafPanel.getBoundingClientRect(),lmid=lb.top+lb.height*.5;
+  const ldelta=clamp((lmid-h*.5)/(h*.7),-1,1);
+  leafPanel.style.setProperty('--leaf-parallax',(-ldelta*(reduced?0:115)).toFixed(1)+'px');
+  leafPanel.style.setProperty('--leaf-inner',(ldelta*(reduced?0:54)).toFixed(1)+'px');
+  leafPanel.style.setProperty('--leaf-alpha',visibility(leafPanel).toFixed(3));
+  if(lb.top<h&&lb.bottom>0&&leaf.paused)leaf.play().catch(()=>{});
+  if((lb.top>=h || lb.bottom<=0)&&!leaf.paused)leaf.pause();
+  const rh=handSection.getBoundingClientRect(),hp=sectionProgress(handSection);
+  const handVisible=rh.bottom>0&&rh.top<h;
+  const handQ=clamp((hp+.015)/.92);
+  // The longer Reach render advances steadily through the actual pose action.
+  // Never accelerate the first two seconds and leave the endpoint frozen.
+  syncScrollVideo(hand,handSection,.095+.88*handQ,handVisible);
+  const handAlpha=smooth(clamp((hp-.01)/.11))*(1-smooth(clamp((hp-.75)/.17)));
+  hand.style.setProperty('--hand-alpha',handAlpha.toFixed(3));
+  hand.style.visibility=handAlpha>.03?'visible':'hidden';
+  // Two separate narrated breaths: first anticipates the reaching motion;
+  // the second arrives as the hand loses its light.
+  // Two separate lines guide the gaze diagonally across the reaching hand.
+  // Keep the bottom-right placement and use the same timing for the second beat.
+  const firstHandAlpha=smooth(clamp((hp-.03)/.11))*(1-smooth(clamp((hp-.46)/.17)));
+  // Keep the hand duplicate hidden: the SAME line glides from the center
+  // of the dying wisp to this upper-left hand position.
+  const lossRect=lossThought.getBoundingClientRect();
+  const lossAbsTop=lossRect.top+y;
+  const handAbsTop=rh.top+y;
+  const flightStart=handAbsTop+h*.025;
+  // More than double the previous scroll distance: a measured glide,
+  // not an abrupt teleport. Finishes before the hand fades out.
+  const flightEnd=handAbsTop+h*.55;
+  const flight=clamp((y-flightStart)/Math.max(1,flightEnd-flightStart));
+  // The ONE rendered caption fades in at its centered narration beat, lingers
+  // while the light dies, and starts moving only once the hand sequence begins.
+  const lossMid=lossRect.top+lossRect.height*.5;
+  const appearing=smooth(clamp((h*.80-lossMid)/(h*.22)));
+  const disappearing=smooth(clamp((y-(handAbsTop+h*.47))/(h*.19)));
+  const carryAlpha=appearing*(1-disappearing);
+  // Gold grows during the SAME element's slower leftward flight. The initial
+  // centered lettering remains ivory, with no swap or crossfade.
+  const warm=smooth(clamp((flight-.025)/.91));
+  const rgb=lossCarryIvory.map((c,i)=>Math.round(c+(lossCarryGold[i]-c)*warm));
+  lossCarry.style.color=`rgb(${rgb.join(',')})`;
+  lossCarry.style.textShadow=`-.8px 0 rgba(110,194,244,.35),.9px 0 rgba(252,140,97,.38),0 0 ${Math.round(10+10*warm)}px rgba(250,225,188,${(.5+.22*warm).toFixed(2)}),0 0 ${Math.round(20+17*warm)}px rgba(241,175,103,${(.24+.39*warm).toFixed(2)}),0 2px 14px #000`;
+  const targetX=Math.min(180,Math.max(28,window.innerWidth*.09))+lossCarry.offsetWidth*.5;
+  const targetY=h*.18+lossCarry.offsetHeight*.5;
+  const easeFlight=smooth(flight);
+  const endFontSize=window.innerWidth<=720?clamp(window.innerWidth*.08,30,46):clamp(window.innerWidth*.035,34,51);
+  const startFontSize=window.innerWidth<=720?clamp(window.innerWidth*.108,40,62):clamp(window.innerWidth*.048,45,70);
+  lossCarry.style.fontSize=(startFontSize+(endFontSize-startFontSize)*easeFlight).toFixed(1)+'px';
+  const fromX=window.innerWidth*.5,fromY=h*.50;
+  lossCarry.style.left=(fromX+(targetX-fromX)*easeFlight).toFixed(1)+'px';
+  lossCarry.style.top=(fromY+(targetY-fromY)*easeFlight).toFixed(1)+'px';
+  lossCarry.style.opacity=carryAlpha.toFixed(3);
+  const secondHandAlpha=smooth(clamp((hp-.17)/.14))*(1-smooth(clamp((hp-.64)/.16)));
+  handNarrSecond.style.setProperty('--hand-text-alpha',secondHandAlpha.toFixed(3));
+  handNarrSecond.style.setProperty('--hand-text-y',(-hp*19).toFixed(1)+'px');
+  const n=visibility(nothing);nothing.style.setProperty('--nothing-alpha',n.toFixed(3));
+}
+function schedule(){if(!request)request=requestAnimationFrame(render);}
+window.addEventListener('scroll',schedule,{passive:true});
+window.addEventListener('resize',schedule,{passive:true});
+window.addEventListener('pageshow',schedule);
+for(const v of [drop,trail,leaf,hand])v.addEventListener('loadeddata',schedule);
+for(const v of [leaf])v.addEventListener('timeupdate',schedule);
+// Videos are synchronized to scroll, so no gesture-triggered restart is needed.
+render();
+})();
+</script>
+
+</body>
+</html>
